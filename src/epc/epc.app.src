@@ -1,0 +1,17 @@
+{application, epc,
+ [{description, "Evolved Packet Core OTP Application Server"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { epc_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    ergw
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, ["Austin Aigbe"]},
+  {licenses, ["APLv2"]},
+  {links, []}
+ ]}.
