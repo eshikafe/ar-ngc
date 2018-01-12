@@ -1,5 +1,5 @@
 {application, epc,
- [{description, "Evolved Packet Core OTP Application Server"},
+ [{description, "ngc"},
   {vsn, "0.1.0"},
   {registered, []},
   {mod, { epc_app, []}},
