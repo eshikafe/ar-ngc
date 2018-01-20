@@ -1,8 +1,8 @@
-ngc
+ar-ngc
 =====
-ngc Erlang/OTP application servers
+AR next generation core network Erlang/OTP application servers
 
-**This is a work in progress!**
+**Experimental**
 
 
 Build
