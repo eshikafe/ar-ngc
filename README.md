@@ -1,6 +1,6 @@
 ar-ngc
 =====
-AR next generation core network Erlang/OTP application servers
+AR's next generation core network Erlang/OTP application servers
 
 **Experimental**
 
