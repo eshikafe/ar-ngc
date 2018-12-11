@@ -19,7 +19,6 @@
 %% @doc Starts the MME S1 Service.
 %%
 %% Example(s) Starting a process 
-%% ```
 %% > mme_s1:start(server, #{
 %%         mme_context => "lgmme01"
 %%         callback => mme_s1_callbacks,
@@ -34,3 +33,16 @@ start(SvcName, ConfigOpts) ->
 		transport = sctp,
 	},
 	nkservice:start(SvcName, ConfigOpts2).
+
+stop(Svc) ->
+	nkservice:stop(Svc).
+
+update(Srv, Opts) ->
+    Opts1 = nklib_util:to_map(Opts),
+    Opts2 = case Opts1 of
+        #{plugins:=Plugins} ->
+            Opts1#{plugins=>[nksip|Plugins]};
+        _ ->
+            Opts1
+    end,
+    nkservice:update(Srv, Opts2).
