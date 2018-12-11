@@ -1,9 +1,12 @@
 ar-ngc
 =====
-AR's next generation core network Erlang/OTP application servers
+AR's next generation core network
 
 **Experimental**
 
+Hardware Configuration
+======================
+![ar_ngc hardware configuration](ar_ngc_hw.png)
 
 Build
 -----
