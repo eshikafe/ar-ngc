@@ -1,6 +1,6 @@
-ar-ngc
+ngc
 =====
-AR's next generation core network experiments
+A new generation core network experiment
 
 **Experimental**
 
