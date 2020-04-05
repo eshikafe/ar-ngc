@@ -4,10 +4,10 @@ EPC/5G core network cloud experiment
 
 
 ### Virtual Network Functions
-- MME + AMF
-- SGW + PGW + UPF 
-- IMS (CSCF, AS)
-- HSS + UDM
+- vMME + vAMF
+- vSGW + vPGW + vUPF 
+- vIMS (CSCF, AS)
+- vHSS + vUDM
 - OAM (CLI)
 
 ### Hardware Configuration
