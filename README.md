@@ -4,17 +4,17 @@ NGC is an EPC/5G core network experiment
 
 **Experimental**
 
+- Control plane/OAM/CLI in Go
+- User plane in Rust/NFF-Go
+- Platform: Docker/RancherOS (container)
+- Hardware: Intel/AMD x86
+
 ## Motivation
 - [Open5gs](https://github.com/acetcom/open5gs).
 - [Free5gc](https://github.com/free5gc/free5gc).
 
-## Why "new generation"?
-Because it is written in new generation programming languages (Go and Rust). 
-- Control plane/OAM/CLI in Go
-- User plane in Rust/NFF-Go
-- Platform: Docker (container)
-- Hardware: Intel/AMD x86 
-
+## Compliance
+- 3GPP Release 15
 
 ## Hardware Configuration
 ![NGC hardware configuration](ngc_hw.png)
