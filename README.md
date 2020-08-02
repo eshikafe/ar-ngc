@@ -4,8 +4,8 @@ NGC is an EPC/5G core network experiment
 **Experimental**
 
 ## Motivation
-[Open5gs](https://github.com/acetcom/open5gs)
-[Free5gc](https://github.com/free5gc/free5gc)
+- [Open5gs](https://github.com/acetcom/open5gs)
+- [Free5gc](https://github.com/free5gc/free5gc)
 
 ## Why "new generation"?
 Because it is written in new generation programming languages (Go and Rust). 
