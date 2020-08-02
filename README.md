@@ -2,7 +2,7 @@
 
 NGC is an EPC/5G core network experiment
 
-**Experimental**
+**Experimental work**
 
 - Control plane/OAM/CLI in Go
 - User plane in Rust/NFF-Go
