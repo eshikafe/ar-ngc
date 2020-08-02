@@ -1,5 +1,5 @@
 // ngc
-// hss.go 
+// hss.go
 
 package hss
 
@@ -10,9 +10,9 @@ import (
 
 const FC_VALUE = 0x10
 
-func HssAuthVec(ck byte, ik byte, plmn_id [3]byte, sqn byte, ak byte, kasme byte) {
-	s := [14]byte // 112 bits
-	k := [32]byte // 256 bits
+func HssAuthVec(ck []byte, ik []byte, plmn_id [3]byte, sqn []byte, ak []byte, kasme []byte) {
+	s := make([]byte, 14)
+	k := make([]byte, 32)
 
 	var i int
 
@@ -28,4 +28,3 @@ func HssAuthVec(ck byte, ik byte, plmn_id [3]byte, sqn byte, ak byte, kasme byte
 	s[13] = 0x06
 	mac := hmac.New(sha256.New, k)
 }
-

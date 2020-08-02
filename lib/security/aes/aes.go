@@ -1,12 +1,12 @@
-package security
+// Copyright (c) 2020 ngc project
+// Reference:
+// https://github.com/acetcom/open5gs/blob/master/lib/crypt/ogs-aes.c
+
+package aes
 
 func RkLength(keybits int) int {
 	return (keybits)/8 + 28
 }
-
-// Reference:
-// https://github.com/acetcom/open5gs/blob/master/lib/crypt/ogs-aes.c
-
 
 var Te0 = []uint32{
 	0xc66363a5, 0xf87c7c84, 0xee777799, 0xf67b7b8d,
@@ -361,8 +361,6 @@ func putU32(ciphertext []uint8, st uint32) {
 	ciphertext[3] = uint8(st)
 }
 
-
-
 // Expand the cipher key into the encryption key schedule.
 // @return the number of rounds for the given cipher key size.
 func SetupEnc(rk []uint32, key []uint8, keybits int) int {
@@ -392,7 +390,7 @@ func SetupEnc(rk []uint32, key []uint8, keybits int) int {
 
 	rk[4] = getU32(key, 16)
 	rk[5] = getU32(key, 20)
-	
+
 	if keybits == 192 {
 		for {
 			temp = rk[5]
@@ -415,7 +413,7 @@ func SetupEnc(rk []uint32, key []uint8, keybits int) int {
 
 	rk[6] = getU32(key, 24)
 	rk[7] = getU32(key, 28)
-	
+
 	if keybits == 256 {
 		for {
 			temp = rk[7]
@@ -437,13 +435,13 @@ func SetupEnc(rk []uint32, key []uint8, keybits int) int {
 			rk = rk[8:]
 		}
 	}
-	
+
 	return 0
 }
 
 func Encrypt(rk []uint32, nrounds int, plaintext []uint8, ciphertext []uint8) {
 	var s0, s1, s2, s3, t0, t1, t2, t3 uint32
-	
+
 	// map byte array block to cipher state
 	// and add initial round key:
 	s0 = getU32(plaintext, 0) ^ rk[0]
