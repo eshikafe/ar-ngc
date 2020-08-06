@@ -12,9 +12,8 @@ NGC is an EPC/5G core network experiment
 ## Motivation
 - [Open5gs](https://github.com/acetcom/open5gs).
 - [Free5gc](https://github.com/free5gc/free5gc).
+- [NextEPC](https://github.com/nextepc/nextepc).
 
-## Compliance
-- 3GPP Release 15
 
 ## Hardware Configuration
 ![NGC hardware configuration](ngc_hw.png)
