@@ -10,19 +10,20 @@ package milenage
 import (
 	"crypto/aes"
 	"fmt"
+	"log"
 )
 
-// Rijndael Encryption algorithm => AES (Advanced Encryption Standard)
+// AES (Advanced Encryption Standard) => Rijndael Encryption algorithm
 // 3GPP TS 35.206 4.2
 // Apply the Rijndael block cipher encryption to the input value x using the key k.
 // Returns a 128-bit output
-func aesEncrypt(x, k []uint8) []uint8 {
+func AESEncrypt(x, k []byte) []byte {
 	// 128-bit output
-	var out []uint8
+	var out = make([]byte, 16)
 	// create 128-bit cipher block => AES-128
 	c, err := aes.NewCipher(k)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	// encrypt x using c
 	c.Encrypt(out, x)
@@ -34,7 +35,7 @@ func aesEncrypt(x, k []uint8) []uint8 {
 // towards the most significant bit.
 // If x = x[0] || x[1] || … x[127], and y = rot(x,r),
 // then y = x[r] || x[r+1] || … x[127] || x[0] || x[1] || x[r-1].
-func rot(x []uint8, r uint8) []uint8 {
+func rot(x []byte, r byte) []byte {
 	y := append(x[r:16], x[0:r]...)
 	return y
 }
@@ -51,55 +52,92 @@ func rot(x []uint8, r uint8) []uint8 {
 //  MAC-A: Network Authentication Code (64 bits)
 //  MAC-S: Resynchronisation Authentication Code (64 bits / 8 bytes)
 
-func milenageF1(opc, k, rand, sqn, amf []uint8) []uint8 {
-	var out1, c1, in1, temp []uint8
-	var r1 byte = 8 // 64 bits
+//  TS 35.206 4.1 Algorithm Framework
+func milenageF(fn string, opc, k, rand, sqn, amf []byte) []byte {
+	// 128-bit variables
+	var in1 []byte = make([]byte, 16)
+	var temp = make([]byte, 16)
+	var out1 = /*, out2, out3, out4, out5*/ make([]byte, 16)
+	var c1 []byte = make([]byte, 16)
+	var c2 []byte = make([]byte, 16)
+	var c3 []byte = make([]byte, 16)
+	var c4 []byte = make([]byte, 16)
+	var c5 []byte = make([]byte, 16)
 
+	// Five integers r1, r2, r3, r4, r5 are defined as follows:
+	// var r1, r2, r3, r4, r5 byte = 8, 0, 4, 8, 12
+	var r1 byte = 8
+
+	// An intermediate 128-bit value TEMP is computed as follows:
+	// temp = E[rand XOR OPc]k = rijndaelEncrypt((rand xor opc), k)
+	for i := 0; i < 16; i++ {
+		temp[i] = rand[i] ^ opc[i]
+	}
+	temp = AESEncrypt(temp, k)
+	fmt.Printf("temp = %x\n", temp)
+
+	// A 128-bit value IN1 is constructed as follows:
 	// in1 = SQN||AMF||SQN||AMF
 	copy(in1[0:], sqn[0:6]) // in1[0]..in1[5] = sqn[0]..sqn[5]
 	copy(in1[6:], amf[0:2]) // in1[6]..in1[7] = amf[0]..amf[1]
 	copy(in1[8:], in1[0:8]) // in1[8]..in1[13] = sqn[0]..sqn[5],in1[14]..in[15] = amf[0]..amf[1]
 
-	// temp = E[rand XOR OPc]k = rijndaelEncrypt((rand xor opc), k)
-	for i := 0; i < 16; i++ {
-		temp[i] = rand[i] ^ opc[i]
-	}
-	temp = aesEncrypt(temp, k)
+	// Five 128-bit constants c1, c2, c3, c4, c5 are defined as follows:
+	// c1[i] = 0 for i = 0..127
 
-	//OUT1 = E[temp xor rot(in1 xor opc, r1) xor c1]k xor opc
+	// c2[i] = 0 for i = 0..126, c2[127] = 1
+	c2[15] = 1 // 0b00000001
+
+	// c3[i] = 0 for 0 ≤ i ≤ 127, except that c3[126] = 1
+	c3[15] = 2 // 0b00000010
+
+	// c4[i] = 0 for 0 ≤ i ≤ 127, except that c4[125] = 1
+	c4[15] = 4 // 0b00000100
+
+	// c5[i] = 0 for 0 ≤ i ≤ 127, except that c5[124] = 1
+	c5[15] = 8 // 0b00001000
+
+	// OUT1 = E[TEMP ⊕ rot(IN1 ⊕ OPC, r1) ⊕ c1]K ⊕ OPC
 	for i := 0; i < 16; i++ {
 		in1[i] = in1[i] ^ opc[i]
 	}
 	in1 = rot(in1, r1)
+	//fmt.Printf("Rotated in1 = %x\n", in1)
 	for i := 0; i < 16; i++ {
 		temp[i] = temp[i] ^ in1[i] ^ c1[i]
 	}
-	temp = aesEncrypt(temp, k)
-
+	temp = AESEncrypt(temp, k)
 	for i := 0; i < 16; i++ {
 		out1[i] = temp[i] ^ opc[i]
 	}
 	return out1
+
+	// OUT2 = E[rot(TEMP⊕ OPC, r2) ⊕ c2]K ⊕ OPC
 }
 
-// Name: f1 (the network authentication function)
+// F1 (the network authentication function)
 // Function: MAC-A = f1(OPC, RAND, AMF, SQN, K)
 // 3GPP Reference: 35.206 4.1
 // OPc: computed off USIM (TS 35.206 5.1)
-func f1(opc, k, rand, sqn, amf []uint8) [8]uint8 {
-	var mac_a [8]uint8
-	out1 := milenageF1(opc, k, rand, sqn, amf)
-	copy(mac_a[0:8], out1[0:8])
-	return mac_a
+func F1(opc, k, rand, sqn, amf []byte) []byte {
+	var macA = make([]byte, 8)
+	out1 := milenageF("f1", opc, k, rand, sqn, amf)
+	copy(macA[0:8], out1[0:8])
+	return macA
 
 }
 
-// Name: f1* (the re-synchronisation message authentication function;)
+// F1Star (the re-synchronisation message authentication function;)
 // Function: MAC-S = f1*(OPc, RAND, AMF, SQN, K)
 // 3GPP Reference: 35.206 v10.0.0 Annex 3
-func f1Star(opc, k, rand, sqn_ms, amf_star []uint8) [8]uint8 {
-	var mac_s [8]uint8
-	out1 := milenageF1(opc, k, rand, sqn_ms, amf_star)
-	copy(mac_s[0:8], out1[8:])
-	return mac_s
+func F1Star(opc, k, rand, sqnMs, amfStar []byte) []byte {
+	var macS = make([]byte, 8)
+	out1 := milenageF("f1*", opc, k, rand, sqnMs, amfStar)
+	copy(macS[0:8], out1[8:])
+	return macS
+}
+
+// F0 the random challenge generating function
+func F0() {
+
 }
