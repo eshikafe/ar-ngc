@@ -2,10 +2,15 @@
 
 package hss
 
-import "log"
+import (
+	"errors"
+	"log"
+)
 
 
 var initialized bool = false
+var contextInitialized bool = false
+
 
 //log.SetFlags(Ldate | Ltime | Lmicroseconds | Llongfile)
 
@@ -17,25 +22,25 @@ func Start() bool {
 		return rv
 	}
 
-	rv, err := hssContextParseConfig()
-	if err != nil {
-		log.Fatal(err)
-		return rv
-	}
+	// rv, err := hssContextParseConfig()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// 	return rv
+	// }
 
-	rv, err := hssDbInit()
-	if err != nil {
-		log.Fatal(err)
-		return rv
-	}
+	// rv, err := hssDbInit()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// 	return rv
+	// }
 
-	rv := hssFdInit()
-	if err != nil {
-		log.Fatal(err)
-		return rv
-	}
-	initialized = true
-	return initialized
+	// rv := hssFdInit()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// 	return rv
+	// }
+	// initialized = true
+	// return initialized
 
 }
 
@@ -46,3 +51,26 @@ func Stop() {
 		return
 	}
 }
+
+
+
+func hssContextInit() (bool, error) {
+	if contextInitialized != true {
+		contextInitialized = true
+		return contextInitialized, nil
+	} else {
+		return false, errors.New("HSS context already active")
+	}
+}
+
+// func hssContextParseConfig() {
+
+// }
+
+// func hssDbInit() {
+
+// }
+
+// func hssFdInit() {
+
+// }
