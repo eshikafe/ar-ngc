@@ -12,19 +12,20 @@ import (
 	"log"
 )
 
-// f0
-// func GenerateRand() []byte {
+// generateRand return a 128-bit pseudo random number. It implements f0
+// TODO: Not yet implemented
+func generateRand() []byte {
+	return make([]byte, 16)
+}
 
-// }
+// GenenrateSQN generate the SQN (48-bit) used as input for quintet generation obtained as follows:
+// SQN = SEQ (Global part) || IND (Individual part)
+// TODO: Not yet implemented
+func GenenrateSQN() []byte {
+	return make([]byte, 8)
+}
 
-// // The SQN used as input for quintet generation is obtained as follows:
-// // SQN = SEQ (Global part) || IND (Individual part)
-// func GenenrateSQN() {
-
-// }
-
-// AES (Advanced Encryption Standard) => Rijndael Encryption algorithm
-// 3GPP TS 35.206 4.2
+// AESEncrypt implements the Rijndael Encryption algorithm (3GPP TS 35.206 4.2)
 // Apply the Rijndael block cipher encryption to the input value x using the key k.
 // Returns a 128-bit output
 func AESEncrypt(x, k []byte) []byte {
@@ -62,8 +63,8 @@ func rot(x []byte, r byte) []byte {
 //  MAC-A: Network Authentication Code (64 bits)
 //  MAC-S: Resynchronisation Authentication Code (64 bits / 8 bytes)
 
-//  TS 35.206 4.1 Algorithm Framework
-func milenageF(fn string, opc, k, rand, sqn, amf []byte) []byte {
+//  TS 35.206 4.1 Milenage Algorithm
+func milenageFn(fn string, opc, k, rand, sqn, amf []byte) []byte {
 	// 128-bit variables
 	var in1 []byte = make([]byte, 16)
 	var temp = make([]byte, 16)
@@ -123,29 +124,80 @@ func milenageF(fn string, opc, k, rand, sqn, amf []byte) []byte {
 	// OUT2 = E[rot(TEMP⊕ OPC, r2) ⊕ c2]K ⊕ OPC
 }
 
+// F0 the random challenge generating function
+// Returns RAND: Random Challenge (128 bits)
+func F0() []byte {
+	return generateRand()
+}
+
 // F1 (the network authentication function)
-// Function: MAC-A = f1(OPC, RAND, AMF, SQN, K)
+// 64-bit MAC-A = f1(OPC, RAND, AMF, SQN, K)
 // 3GPP Reference: 35.206 4.1
 // OPc: computed off USIM (TS 35.206 5.1)
 func F1(opc, k, rand, sqn, amf []byte) []byte {
 	var macA = make([]byte, 8)
-	out1 := milenageF("f1", opc, k, rand, sqn, amf)
+	out1 := milenageFn("f1", opc, k, rand, sqn, amf)
 	copy(macA[0:8], out1[0:8])
 	return macA
 
 }
 
 // F1Star (the re-synchronisation message authentication function;)
-// Function: MAC-S = f1*(OPc, RAND, AMF, SQN, K)
+// 64-bit MAC-S = f1*(OPc, RAND, AMF, SQN, K)
 // 3GPP Reference: 35.206 v10.0.0 Annex 3
 func F1Star(opc, k, rand, sqnMs, amfStar []byte) []byte {
 	var macS = make([]byte, 8)
-	out1 := milenageF("f1*", opc, k, rand, sqnMs, amfStar)
+	out1 := milenageFn("f1*", opc, k, rand, sqnMs, amfStar)
 	copy(macS[0:8], out1[8:])
 	return macS
 }
 
-// F0 the random challenge generating function
-func F0() {
+// F2 (the user authentication function)
+// 64-bit RES = f2(OPc, RAND, AMF, SQN, K)
+// 3GPP Reference: 35.206 4.1
+func F2(opc, k, rand, sqnMs, amfStar []byte) []byte {
+	var res = make([]byte, 8)
+	out2 := milenageFn("f2", opc, k, rand, sqnMs, amfStar)
+	copy(res[0:8], out2[8:])
+	return res
+}
 
+// F3 (the cipher key derivation function)
+// 128-bit CK= f3(OPc, RAND, AMF, SQN, K)
+// 3GPP Reference: 35.206 4.1
+func F3(opc, k, rand, sqnMs, amfStar []byte) []byte {
+	var ck = make([]byte, 16)
+	out3 := milenageFn("f3", opc, k, rand, sqnMs, amfStar)
+	copy(ck[0:16], out3[0:16])
+	return ck
+}
+
+// F4 (the integrity key derivation function)
+// 128-bit IK = f4(OPc, RAND, AMF, SQN, K)
+// 3GPP Reference: 35.206 v10.0.0 Annex 3
+func F4(opc, k, rand, sqnMs, amfStar []byte) []byte {
+	var ik = make([]byte, 16)
+	out4 := milenageFn("f4", opc, k, rand, sqnMs, amfStar)
+	copy(ik[0:16], out4[0:16])
+	return ik
+}
+
+// F5 (the anonymity key derivation function)
+// 48-bit AK = f5(OPc, RAND, AMF, SQN, K)
+// 3GPP Reference: 35.206 4.1
+func F5(opc, k, rand, sqnMs, amfStar []byte) []byte {
+	var ak = make([]byte, 6)
+	out2 := milenageFn("f2", opc, k, rand, sqnMs, amfStar)
+	copy(ak[0:6], out2[0:6])
+	return ak
+}
+
+// F5Star (the anonymity key derivation function for the re-synchronisation message)
+// 48-bit AK = f5*(OPc, RAND, AMF, SQN, K)
+// 3GPP Reference: 35.206 4.1
+func F5Star(opc, k, rand, sqnMs, amfStar []byte) []byte {
+	var ak = make([]byte, 6)
+	out5 := milenageFn("f5*", opc, k, rand, sqnMs, amfStar)
+	copy(ak[0:6], out5[0:6])
+	return ak
 }
