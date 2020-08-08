@@ -1,5 +1,7 @@
 # New Generation Core (NGC) 
 
+![Github CI](https://github.com/eshikafe/ngc/workflows/CI/badge.svg)
+
 NGC is an EPC/5G core network experiment
 
 **Experimental work**
