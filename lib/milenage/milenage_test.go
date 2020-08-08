@@ -1,6 +1,8 @@
 // Copyright (c) 2020 ngc project
-// Reference: 3GPP TS 35.207 - Document 3: Implementors' Test Data
-//            http://cryptome.org/3gpp/35207-900.pdf
+//
+// Reference documents:
+// 3GPP TS 35.207 - Document 3: Implementors' Test Data
+// http://cryptome.org/3gpp/35207-900.pdf
 
 package milenage
 
@@ -20,7 +22,8 @@ func strToHexArray(h string) []byte {
 	return n
 }
 
-// Rijndael test
+// TestRijndaelTestSet1 implements Rijndael test date in
+// 3GPP TS 35.207 section 3.3 Test Set 1
 func TestRijndaelTestSet1(t *testing.T) {
 	// Key: 465b5ce8 b199b49f aa5f0a2e e238a6bc
 	// Plaintext: ee36f7cf 037d37d3 692f7f03 99e7949a
@@ -39,6 +42,7 @@ func TestRijndaelTestSet1(t *testing.T) {
 }
 
 // TestF1TestSet1 implements 3GPP test set 1 for Authentication algorithms f1 AND f1*
+// in 3GPP TS 35.207 section 4.3 Test Set 1
 func TestF1TestSet1(t *testing.T) {
 	// 3GPP TS 35.207 4.3 Test Set 1
 	// K: 465b5ce8 b199b49f aa5f0a2e e238a6bc
