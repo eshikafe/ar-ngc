@@ -14,9 +14,7 @@ type Quintet struct {
 	autn []byte // SQN ^ AK || AMF|| MAC-A (128-bit = 48||16||64)
 }
 
-// The A4 algorithm used to decrypt the encrypted user secret key is AES128
-// Sensitive user data is stored encrypted in the database, so it needs to be decrypted to be used in the generation of quintets
-
+// GenerateQuintet function generates the quintets
 func GenerateQuintet(opc, k, rand, sqn, amf []byte) Quintet {
 	var quintet Quintet
 	tmp := make([]byte, 6)
