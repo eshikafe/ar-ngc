@@ -1,3 +1,7 @@
+// Copyright (c) 2020 ngc project
+// Reference: 3GPP TS 35.207 - Document 3: Implementors' Test Data
+//            http://cryptome.org/3gpp/35207-900.pdf
+
 package milenage
 
 import (
@@ -33,6 +37,8 @@ func TestRijndaelTestSet1(t *testing.T) {
 	}
 
 }
+
+// TestF1TestSet1 implements 3GPP test set 1 for Authentication algorithms f1 AND f1*
 func TestF1TestSet1(t *testing.T) {
 	// 3GPP TS 35.207 4.3 Test Set 1
 	// K: 465b5ce8 b199b49f aa5f0a2e e238a6bc
@@ -62,14 +68,14 @@ func TestF1TestSet1(t *testing.T) {
 	macAA := F1(opc, k, rand, sqn, amf)
 	//macSA := F1Star(opc, k, rand, sqn, amf)
 
-	// fmt.Printf("Mine f1(Actual)  : %x\n", macAA)
-	// fmt.Printf("f1 (Expected): %x\n", macAE)
+	fmt.Printf("f1(Actual)  : %x\n", macAA)
+	fmt.Printf("f1 (Expected): %x\n", macAE)
 
 	// fmt.Printf("f1* (Actual)  : %x\n", macSA)
 	// fmt.Printf("f1* (Expected): %x\n", macSE)
 	if !bytes.Equal(macAE, macAA) {
-		t.Error("3GPP TS 35.207 Test Set 1 failed\n")
+		t.Error("3GPP TS 35.207 f1/f1* Test Set 1 failed\n")
 	} else {
-		fmt.Print("3GPP TS 35.207 Test Set 1 Passed\n")
+		fmt.Print("3GPP TS 35.207 f1/f1* Test Set 1 Passed\n")
 	}
 }
