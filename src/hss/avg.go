@@ -14,7 +14,7 @@ type Quintet struct {
 	autn []byte // SQN ^ AK || AMF|| MAC-A (128-bit = 48||16||64)
 }
 
-// GenerateQuintet function generates the quintets
+// GenerateQuintet generates the quintets
 func GenerateQuintet(opc, k, rand, sqn, amf []byte) Quintet {
 	var quintet Quintet
 	tmp := make([]byte, 6)
