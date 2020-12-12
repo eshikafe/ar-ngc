@@ -6,9 +6,8 @@ NGC is an EPC/5G core network experiment
 
 **Experimental work**
 
-- Control plane/OAM/CLI in Go
+- Control plane/OAM/CLI in Erlang
 - User plane in Rust/NFF-Go
-- Platform: Docker/RancherOS (container)
 - Hardware: Intel/AMD x86
 
 ## Motivation
