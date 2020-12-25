@@ -2,13 +2,12 @@
 
 ![Github CI](https://github.com/eshikafe/ngc/workflows/CI/badge.svg)
 
-NGC is an EPC/5G core network experiment
+NGC is an experimental 4G and 5G virtual core network based on a microservice architecture using gRPC.
 
 **Experimental work**
 
-- Control plane (Erlang)
-- User plane (NFF-Go)
-- Hardware: Intel/AMD x86
+- Control plane (Erlang/Go)
+- User plane (NFF-Go/Rust)
 
 ## Motivation
 - [Open5gs](https://github.com/acetcom/open5gs).
