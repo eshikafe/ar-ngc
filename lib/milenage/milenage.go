@@ -13,9 +13,9 @@ import (
 	"log"
 )
 
-// generateRand return a 128-bit pseudo random number. It implements f0
+// GenerateRAND return a 128-bit pseudo random number. It implements f0
 // TODO: Not yet implemented
-func generateRand() []byte {
+func GenerateRAND() []byte {
 	return make([]byte, 16)
 }
 
