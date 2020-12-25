@@ -33,7 +33,7 @@ func Start() bool {
 	// }
 	// initialized = true
 	// return initialized
-
+	return false
 }
 
 // Stop HSS server
