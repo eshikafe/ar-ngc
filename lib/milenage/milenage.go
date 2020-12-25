@@ -128,7 +128,7 @@ func milenageFn(fn string, opc, k, rand, sqn, amf []byte) []byte {
 // F0 the random challenge generating function
 // Returns RAND: Random Challenge (128 bits)
 func F0() []byte {
-	return generateRand()
+	return GenerateRAND()
 }
 
 // F1 (the network authentication function)
