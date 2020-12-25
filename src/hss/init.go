@@ -2,25 +2,17 @@
 
 package hss
 
-import (
-	"errors"
-	"log"
-)
-
-
-var initialized bool = false
-var contextInitialized bool = false
-
-
+// var initialized bool = false
+// var contextInitialized bool = false
 //log.SetFlags(Ldate | Ltime | Lmicroseconds | Llongfile)
 
 // Start HSS server
 func Start() bool {
-	rv, err := hssContextInit()
-	if err != nil {
-		log.Fatal(err)
-		return rv
-	}
+	// rv, err := hssContextInit()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// 	return rv
+	// }
 
 	// rv, err := hssContextParseConfig()
 	// if err != nil {
@@ -46,22 +38,17 @@ func Start() bool {
 
 // Stop HSS server
 func Stop() {
-	if initialized != true {
-		log.
-		return
-	}
+	// todo
 }
 
-
-
-func hssContextInit() (bool, error) {
-	if contextInitialized != true {
-		contextInitialized = true
-		return contextInitialized, nil
-	} else {
-		return false, errors.New("HSS context already active")
-	}
-}
+// func hssContextInit() (bool, error) {
+// 	if contextInitialized != true {
+// 		contextInitialized = true
+// 		return contextInitialized, nil
+// 	} else {
+// 		return false, errors.New("HSS context already active")
+// 	}
+// }
 
 // func hssContextParseConfig() {
 
