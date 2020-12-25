@@ -15,11 +15,15 @@ type Quintet struct {
 }
 
 // GenerateQuintet generates the quintets
-func GenerateQuintet(opc, k, rand, sqn, amf []byte) Quintet {
+func GenerateQuintet() Quintet {
 	var quintet Quintet
 	tmp := make([]byte, 6)
 	autn := make([]byte, 16)
-
+	opc := make([]byte, 16)
+	k := make([]byte, 16)
+	amf := make([]byte, 16)
+	rand := milenage.GenerateRAND()
+	sqn := milenage.GenenrateSQN()
 	ak := milenage.F5(opc, k, rand, sqn, amf)
 	mac := milenage.F1(opc, k, rand, sqn, amf)
 
