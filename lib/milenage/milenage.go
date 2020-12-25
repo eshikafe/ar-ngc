@@ -9,6 +9,7 @@ package milenage
 
 import (
 	"crypto/aes"
+	"fmt"
 	"log"
 )
 
@@ -85,7 +86,7 @@ func milenageFn(fn string, opc, k, rand, sqn, amf []byte) []byte {
 		temp[i] = rand[i] ^ opc[i]
 	}
 	temp = AESEncrypt(temp, k)
-
+	fmt.Printf("1st encryption (actual)    : %x\n", temp)
 	// A 128-bit value IN1 is constructed as follows:
 	// in1 = SQN||AMF||SQN||AMF
 	copy(in1[0:], sqn[0:6]) // in1[0]..in1[5] = sqn[0]..sqn[5]
