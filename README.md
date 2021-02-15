@@ -6,8 +6,8 @@ NGC is an experimental 4G and 5G virtual core network based on a microservice ar
 
 **Experimental work**
 
-- Control plane (Erlang/Go)
-- User plane (NFF-Go/Rust)
+- Control plane (`Erlang`, `Go`)
+- User plane (`NFF-Go`, `Rust`)
 
 ## Motivation
 - [Open5gs](https://github.com/acetcom/open5gs).
@@ -23,7 +23,7 @@ Please feel free to contribute via a pull request or [Issues](https://github.com
 
 Support required:
 - Documentation of design specifications for each VNF
-- Design and implementation of a robust and scalable SBA preferably a microservice architecture.
-- VNF implementation in Golang
+- Design and implementation of a robust and scalable Service-Based Architecture preferably a microservice architecture.
+- VNF implementation in Golang/Erlang/Rust
 
 
