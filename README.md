@@ -22,8 +22,7 @@ NGC is an experimental 4G and 5G virtual core network based on a microservice ar
 Please feel free to contribute via a pull request or [Issues](https://github.com/eshikafe/ngc/issues)
 
 Support required:
-- Documentation of design specifications for each VNF
-- Design and implementation of a robust and scalable Service-Based Architecture preferably a microservice architecture.
-- VNF implementation in Golang/Erlang/Rust
+- Design specification for each VNF.
+- VNF implementation in Golang/Erlang/Rust.
 
 
