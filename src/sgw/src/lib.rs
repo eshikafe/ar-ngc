@@ -1,3 +1,17 @@
+mod context;
+mod session;
+mod event;
+
+pub fn initialize() -> Result {
+    // TODO
+} 
+
+pub fn terminate() {
+    // TODO
+}
+
+
+
 #[cfg(test)]
 mod tests {
     #[test]
