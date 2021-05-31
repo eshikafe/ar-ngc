@@ -1,3 +1,10 @@
+pub struct UpfOps {
+    name: String,
+    init: Init,
+    term: Term,
+       
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
