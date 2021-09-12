@@ -2,12 +2,12 @@
 
 ![Github CI](https://github.com/eshikafe/ngc/workflows/CI/badge.svg)
 
-NGC is an experimental 4G and 5G virtual core network based on a microservice architecture using gRPC.
+NGC is an experimental 4G/5G cloud native core network.
 
 **Experimental work**
 
-- Control plane (`Erlang`, `Go`)
-- User plane (`NFF-Go`, `Rust`)
+- Each Cloud Native Function (CNF) is based on the Ligato framework
+- User plane will be based on `VPP`
 
 ## Motivation
 - [Open5gs](https://github.com/acetcom/open5gs).
@@ -22,7 +22,9 @@ NGC is an experimental 4G and 5G virtual core network based on a microservice ar
 Please feel free to contribute via a pull request or [Issues](https://github.com/eshikafe/ngc/issues)
 
 Support required:
-- Design specification for each VNF.
-- VNF implementation in Golang/Erlang/Rust.
+- Design specification for each CNF.
+- Architectural design of the UPF.
+- 5G CNF implementation in Go.
+- Common services implementation in Go.
 
 
