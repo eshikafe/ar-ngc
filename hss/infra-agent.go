@@ -6,43 +6,43 @@ import (
 	"go.ligato.io/cn-infra/v2/agent"
 )
 
-func StartHssAgent() {
+func StartAgent() {
 
 	// Plugin instance
-	hss_plugin := new(HssAgent)
+	hssPlugin := new(Agent)
 
 	// Create new HSS front-end agent
-	hss_agent := agent.NewAgent(agent.Plugins(hss_plugin))
+	hssAgent := agent.NewAgent(agent.Plugins(hssPlugin))
 
 	// Start the agent
-	if err := hss_agent.Run(); err != nil {
+	if err := hssAgent.Run(); err != nil {
 		log.Fatalln(err)
 	}
 
 }
 
-type HssAgent struct{}
+type Agent struct{}
 
 // Ligato HSS plugin name
-func (h *HssAgent) String() string {
+func (h *Agent) String() string {
 	return "HssAgent"
 }
 
 // Initialize HSS agent
-func (h *HssAgent) Init() error {
+func (h *Agent) Init() error {
 	log.Println("Initializing HSS agent")
 	return nil
 }
 
 // Start HSS server after plugin initialization
-func (h *HssAgent) AfterInit() error {
+func (h *Agent) AfterInit() error {
 	log.Println("Starting HSS")
 	Start()
 	return nil
 }
 
 // On HSS shutdown
-func (h *HssAgent) Close() error {
+func (h *Agent) Close() error {
 	log.Println("Shutting down HSS agent")
 	Stop()
 	return nil
