@@ -43,7 +43,7 @@ func (h *Agent) AfterInit() error {
 
 // On HSS shutdown
 func (h *Agent) Close() error {
-	log.Println("Shutting down HSS agent")
+	log.Println("Shutting down HSS")
 	Stop()
 	return nil
 }
