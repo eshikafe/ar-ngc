@@ -6,7 +6,7 @@ NGC is an experimental 4G/5G cloud native core network.
 
 **Experimental work**
 
-- Each Cloud Native Function (CNF) is based on the Ligato framework
+- Each Cloud Native Function (CNF) is based on the [Ligato](https://ligato.io/) framework
 - User plane will be based on `VPP`
 
 ## Motivation

@@ -1,7 +1,0 @@
-[workspace]
-members = [
-    "src/upf",
-    "src/sgw",
-    "src/pgw",
-    "src/gtp"
-]

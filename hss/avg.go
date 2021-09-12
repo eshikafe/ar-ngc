@@ -3,7 +3,7 @@
 
 package hss
 
-import "ngc/lib/milenage"
+import "github.com/eshikafe/ngc/common/milenage"
 
 // Quintet = (RAND, XRES, CK, IK, AUTN)
 type Quintet struct {
