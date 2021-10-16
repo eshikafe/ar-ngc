@@ -13,7 +13,7 @@ func StartAgent() {
 	// Plugin instance
 	mmePlugin := new(Agent)
 
-	// Create new HSS front-end agent
+	// Create new MME agent
 	mmeAgent := agent.NewAgent(agent.Plugins(mmePlugin))
 
 	// Start the agent
@@ -25,9 +25,9 @@ func StartAgent() {
 
 type Agent struct{}
 
-// Ligato HSS plugin name
+// Ligato MME plugin name
 func (h *Agent) String() string {
-	return "MME Agent"
+	return "MME-Agent"
 }
 
 // Initialize MME agent
