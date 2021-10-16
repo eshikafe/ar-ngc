@@ -13,7 +13,7 @@ An experimental [Ligato](https://ligato.io/) based 4G/5G cloud native core netwo
 
 ### Standalone/Basic option
 
-![NGC standalone prototype system](ngc_hw_standalone_basic.png)
+[NGC standalone prototype system](ngc_hw_standalone_basic.png)
 
 ### Contributions
 
