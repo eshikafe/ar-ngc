@@ -9,9 +9,11 @@ An experimental [Ligato](https://ligato.io/) based 4G/5G cloud native core netwo
 - Each Cloud Native Function (CNF) will be based on the Ligato framework
 - User plane will be based on `VPP`
 
-## Hardware Configuration
+## Prototype System
 
-![NGC hardware configuration](ngc_hw.png)
+### Standalone/Basic option
+
+![NGC standalone prototype system](ngc_hw_standalone_basic.png)
 
 ### Contributions
 
