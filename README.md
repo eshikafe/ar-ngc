@@ -1,30 +1,26 @@
-# New Generation Core (NGC) 
+# New Generation Core (NGC)
 
 ![Github CI](https://github.com/eshikafe/ngc/workflows/CI/badge.svg)
 
-NGC is an experimental 4G/5G cloud native core network.
+An experimental [Ligato](https://ligato.io/) based 4G/5G cloud native core network.
 
 **Experimental work**
 
-- Each Cloud Native Function (CNF) will be based on the [Ligato](https://ligato.io/) framework
+- Each Cloud Native Function (CNF) will be based on the Ligato framework
 - User plane will be based on `VPP`
 
-## Motivations
-- [Open5gs](https://github.com/acetcom/open5gs).
-- [Free5gc](https://github.com/free5gc/free5gc).
-- [NextEPC](https://github.com/nextepc/nextepc).
-
-
 ## Hardware Configuration
+
 ![NGC hardware configuration](ngc_hw.png)
 
 ### Contributions
+
 Please feel free to contribute via a pull request or [Issues](https://github.com/eshikafe/ngc/issues)
 
 Support required:
-- Design specification for each CNF.
-- Architectural design of the UPF with an emphasis on scalability and configuration simplicity
-- 5G CNF implementation in Go.
+
+- Design specification for each CNF based on the Ligato framework
+- UPF implementation based on Ligato and VPP
+- PFCP Ligato Agent implementation in Go
+- 4G/5G mobility and session management implementation in Erlang
 - Common services implementation in Go.
-
-

@@ -1,4 +1,4 @@
-// Copyright (c) 2020 ngc project
+// Copyright (c) 2021 Austin Aigbe
 //
 // Reference documents:
 // 3GPP TS 35.207 - Document 3: Implementors' Test Data

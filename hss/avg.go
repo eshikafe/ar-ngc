@@ -1,4 +1,4 @@
-// Copyright (c) 2020 ngc project
+// Copyright (c) 2020 Austin Aigbe
 // AVG - HSS Authentication Vector Generator
 
 package hss

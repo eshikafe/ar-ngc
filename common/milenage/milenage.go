@@ -1,4 +1,4 @@
-// Copyright (c) 2020 ngc project
+// Copyright (c) 2021 Austin Aigbe
 // Reference:
 // 3GPP TS 35.205 - Document 1: General
 // 3GPP TS 35.206 - Document 2: Algorithm Specification
