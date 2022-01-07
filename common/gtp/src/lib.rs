@@ -132,13 +132,13 @@ impl fmt::Display for Gtpv2CHeader {
 }
 
 fn dump_header(gtp_pkt: &[u8]) {
-    let gtp_data = Gtpv2CHeader::parse(gtp_pkt);
-    println!("Dump header: {}", gtp_data);
-    println!("GTP Version: {:?}", gtp_data.version());
-    println!("P Flag: {}", gtp_data.p_flag());
-    println!("TEID Flag: {}", gtp_data.t_flag());
-    if gtp_data.mp_flag() == 1 {
-        println!("Message priority: {}", gtp_data.get_msg_priority());
+    let gtp_header = Gtpv2CHeader::parse(gtp_pkt);
+    println!("Dump header: {}", gtp_header);
+    println!("GTP Version: {:?}", gtp_header.version());
+    println!("P Flag: {}", gtp_header.p_flag());
+    println!("TEID Flag: {}", gtp_header.t_flag());
+    if gtp_header.mp_flag() == 1 {
+        println!("Message priority: {}", gtp_header.get_msg_priority());
     }
 }
 
