@@ -19,7 +19,7 @@ struct Gtpv2CHeader {
     msg_len: u16,
     teid: Option<u32>,
     seq_num: u32,
-    spare: u8,
+    msg_prio: Option<u8>,
 }
 
 // 5.6 GTPv2-C Message
@@ -59,19 +59,27 @@ impl Gtpv2CHeader {
             ..Default::default()
         };
         let t_flag = (t_pdu[0] & 0b00001000) >> 3;
+        let mp_flag = (t_pdu[0] & 0b00000100) >> 2;
         match t_flag {
             1 => {
-                // let mp_flag = (t_pdu[0] & 0b00000100) >> 2;
                 header.teid = Some(u32::from_be_bytes(t_pdu[4..8].try_into().unwrap()));
                 header.seq_num =
                     ((t_pdu[8] as u32) << 16) + ((t_pdu[9] as u32) << 8) + t_pdu[10] as u32;
-                header.spare = t_pdu[11];
+                if mp_flag == 1 {
+                    header.msg_prio = Some((t_pdu[11] & 0b11110000) >> 4);
+                } else {
+                    header.msg_prio = None;
+                }
             }
             _ => {
                 header.teid = None;
                 header.seq_num =
                     ((t_pdu[4] as u32) << 16) + ((t_pdu[5] as u32) << 8) + t_pdu[6] as u32;
-                header.spare = t_pdu[7];
+                if mp_flag == 1 {
+                    header.msg_prio = Some((t_pdu[7] & 0b11110000) >> 4);
+                } else {
+                    header.msg_prio = None;
+                }
             }
         }
 
@@ -104,7 +112,10 @@ impl Gtpv2CHeader {
     }
 
     fn get_msg_priority(&self) -> u8 {
-        (self.flags & 0b11110000) >> 4
+        match self.msg_prio {
+            Some(mp) => mp,
+            None => 0,
+        }
     }
 
     fn get_msg_type(&self) -> Result<&'static str, &'static str> {
@@ -125,8 +136,8 @@ impl fmt::Display for Gtpv2CHeader {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "\n Version: {}(0x{:x})\n Message Type: {}({:?})\n Message Length: {}\n Teid: {:?}\n Sequence Number: {}\n Spare: {}",
-            self.flags,self.flags, self.msg_type, self.get_msg_type(), self.msg_len, self.teid, self.seq_num, self.spare
+            "\n Version: {}(0x{:x})\n Message Type: {}({:?})\n Message Length: {}\n Teid: {:?}\n Sequence Number: {}\n Message Priority: {:?}",
+            self.flags,self.flags, self.msg_type, self.get_msg_type(), self.msg_len, self.teid, self.seq_num, self.msg_prio
         )
     }
 }
@@ -137,9 +148,7 @@ fn dump_header(gtp_pkt: &[u8]) {
     println!("GTP Version: {:?}", gtp_header.version());
     println!("P Flag: {}", gtp_header.p_flag());
     println!("TEID Flag: {}", gtp_header.t_flag());
-    if gtp_header.mp_flag() == 1 {
-        println!("Message priority: {}", gtp_header.get_msg_priority());
-    }
+    println!("MP Flag: {}", gtp_header.mp_flag());
 }
 
 pub async fn server(ip_addr: IpAddr) -> io::Result<()> {
