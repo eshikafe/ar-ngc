@@ -1,6 +1,6 @@
 // PFCP Stack
-// Copyright (c) 2022 Austin Aigbe
-// 3GPP TS 29.244 version 16.4.0 Release 16
+// Copyright (c) 2022 vPlane Telecom
+// Compliance: 3GPP TS 29.244 version 16.4.0 Release 16
 
 use std::convert::TryInto;
 use std::fmt;

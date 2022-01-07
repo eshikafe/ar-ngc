@@ -1,6 +1,6 @@
 // GTP Stack
-// Copyright (c) 2022 Austin Aigbe
-// 3GPP TS 29.274 version 16.6.0 Release 16
+// Copyright (c) 2022 vPlane Telecom
+// Compliance: 3GPP TS 29.274 version 16.6.0 Release 16
 
 use std::convert::TryInto;
 use std::fmt;
@@ -157,10 +157,11 @@ pub async fn server(ip_addr: IpAddr) -> io::Result<()> {
     let mut buf = [0u8; 1024];
     println!("GTPStack: GTPv2-C server started on {}", socket_addr);
     loop {
-        let (_len, _addr) = sock.recv_from(&mut buf).await?;
+        let (len, addr) = sock.recv_from(&mut buf).await?;
+        println!("Client IP address: {:?}", addr);
         dump_header(&buf);
 
-        //let len = sock.send_to(&buf[..len], addr).await?;
-        //println!("{:?} bytes sent", len);
+        let len = sock.send_to(&buf[..len], addr).await?;
+        println!("{:?} number of bytes sent", len);
     }
 }
