@@ -1,0 +1,9 @@
+[workspace]
+members = [
+    "sgwc",
+    "pgwc",
+    "smf",
+    "sgwu",
+    "pgwu",
+    "upf"
+]

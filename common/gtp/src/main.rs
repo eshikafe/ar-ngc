@@ -1,0 +1,8 @@
+use gtp;
+use std::net::{IpAddr, Ipv4Addr};
+
+#[tokio::main]
+async fn main() {
+    let s11_addr = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1));
+    gtp::start(s11_addr).await;
+}
