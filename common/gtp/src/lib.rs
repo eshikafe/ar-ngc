@@ -29,6 +29,17 @@ struct Gtpv2CMessage {
 }
 
 // 6 GTP-C Message Types and Message Formats
+
+enum MessageType {
+    EchoRequest,                   // 1
+    EchoResponse,                  // 2
+    VersionNotSupportedIndication, // 3
+    CreateSessionRequest,          // 32
+    CreateSessionResponse,         // 33
+    DeleteSessionRequest,          // 36
+    DeleteSessionResponse,         // 37
+}
+
 const ECHO_REQUEST: u8 = 1;
 const ECHO_RESPONSE: u8 = 2;
 const VERSION_NOT_SUPPORTED_INDICATION: u8 = 3;
@@ -40,7 +51,7 @@ const DELETE_SESSION_REQUEST: u8 = 36;
 const DELETE_SESSION_RESPONSE: u8 = 37;
 
 impl Gtpv2CHeader {
-    fn header(t_pdu: [u8; 1024]) -> Self {
+    fn parse(t_pdu: &[u8]) -> Self {
         let mut header = Self {
             flags: t_pdu[0],
             msg_type: t_pdu[1],
@@ -99,6 +110,12 @@ impl Gtpv2CHeader {
     fn get_msg_type(&self) -> Result<&'static str, &'static str> {
         match self.msg_type {
             CREATE_SESSION_REQUEST => Ok("Create Session Request"),
+            CREATE_SESSION_RESPONSE => Ok("Create Session Response"),
+            ECHO_REQUEST => Ok("Echo Request"),
+            ECHO_RESPONSE => Ok("Echo Response"),
+            VERSION_NOT_SUPPORTED_INDICATION => Ok("Version Not Supported Indication"),
+            DELETE_SESSION_REQUEST => Ok("Delete Session Request"),
+            DELETE_SESSION_RESPONSE => Ok("Delete Session Response"),
             _ => Err("Unspported message"),
         }
     }
@@ -114,21 +131,25 @@ impl fmt::Display for Gtpv2CHeader {
     }
 }
 
+fn dump_header(gtp_pkt: &[u8]) {
+    let gtp_data = Gtpv2CHeader::parse(gtp_pkt);
+    println!("Dump header: {}", gtp_data);
+    println!("GTP Version: {:?}", gtp_data.version());
+    println!("P Flag: {}", gtp_data.p_flag());
+    println!("TEID Flag: {}", gtp_data.t_flag());
+    if gtp_data.mp_flag() == 1 {
+        println!("Message priority: {}", gtp_data.get_msg_priority());
+    }
+}
+
 pub async fn server(ip_addr: IpAddr) -> io::Result<()> {
     let socket_addr = SocketAddr::new(ip_addr, GTPV2C_PORT);
     let sock = UdpSocket::bind(socket_addr).await?;
     let mut buf = [0u8; 1024];
     println!("GTPStack: GTPv2-C server started on {}", socket_addr);
     loop {
-        let (len, addr) = sock.recv_from(&mut buf).await?;
-        let gtp_data = Gtpv2CHeader::header(buf);
-        println!("Dump header: {}", gtp_data);
-        println!("GTP Version: {:?}", gtp_data.version());
-        println!("P Flag: {}", gtp_data.p_flag());
-        println!("TEID Flag: {}", gtp_data.t_flag());
-        if gtp_data.mp_flag() == 1 {
-            println!("Message priority: {}", gtp_data.get_msg_priority());
-        }
+        let (_len, _addr) = sock.recv_from(&mut buf).await?;
+        dump_header(&buf);
 
         //let len = sock.send_to(&buf[..len], addr).await?;
         //println!("{:?} bytes sent", len);
