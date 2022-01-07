@@ -114,7 +114,7 @@ impl fmt::Display for Gtpv2CHeader {
     }
 }
 
-pub async fn start(ip_addr: IpAddr) -> io::Result<()> {
+pub async fn server(ip_addr: IpAddr) -> io::Result<()> {
     let socket_addr = SocketAddr::new(ip_addr, GTPV2C_PORT);
     let sock = UdpSocket::bind(socket_addr).await?;
     let mut buf = [0u8; 1024];

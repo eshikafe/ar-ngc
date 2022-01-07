@@ -1,9 +1,10 @@
 [package]
 name = "pfcp"
-description = "Packet Forwarding Control Protocol"
+description = "Packet Forwarding Control Protocol for 4G/5G"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+tokio = {version = "1.15.0", features = ["net", "macros","rt-multi-thread"]}
