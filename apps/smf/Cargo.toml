@@ -1,10 +1,10 @@
 [package]
-name = "gtp"
-decription = "GTPv2-C/GTPv1-U stack for 4G/5G"
+name = "smf"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = {version = "1.15.0", features = ["net", "macros","rt-multi-thread"]}
+log = "0.4.16"
+simple_logger = "2.1.0"

@@ -1,0 +1,5 @@
+[env]
+SGWC_APP_NAME = "sgwc"
+NGC_BUILD_NUMBER = "beta"
+RUSTC_VERSION = "1.58.1"
+NGC_ENABLE_EXPERIMENT = "vmm-firecracker"
