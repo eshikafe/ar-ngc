@@ -1,0 +1,9 @@
+[package]
+name = "gtp"
+decription = "A 3GPP compliant GTPv2-C and GTPv1-U stack"
+version = "0.1.0"
+authors = ["VPlane Telecoms"]
+edition = "2021"
+
+[dependencies]
+tokio = {version = "1.15.0", features = ["net", "macros","rt-multi-thread"]}
